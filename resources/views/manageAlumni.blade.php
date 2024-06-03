@@ -273,6 +273,16 @@ hr{
         position: sticky;
         z-index: 0;
     }
+    .table th:last-child,
+        .table td:last-child {
+            position: sticky;
+            right: 0;
+            background-color: #fff;
+            z-index: 1;
+        }
+        .table th:last-child {
+            z-index: 2;
+        }
 
     /* --------------------------------------------------------------register */
 
@@ -400,10 +410,12 @@ hr{
                     </div>
                 </div>
             </nav>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="position:relative;top:2.4rem;left:20rem;"><i class="fa-solid fa-pen" style="margin: 5px;"></i>Compose Mail
+              </button>
 
                         <div class="container">
                             <div id="toolbar">
-                                <button id="exportButton" class="btn btn-primary" value="pdf">Export PDF</button>
+                                <button id="exportExcelButton" class="btn btn-success">Export Excel</button>
                             </div>
                                 <button class="btn btn-primary mb-3" role="button" data-toggle="modal" data-target="#addAlumniModal"><i class="fa fa-plus"></i> Add Alumni</button>
                                 <div class="table-container">
@@ -415,9 +427,10 @@ hr{
                                            data-page-list="[5, 10, 25, 50, 100, 250, 500]"
                                            data-toolbar="#toolbar"
                                            class="table table-responsive">
-                                        <thead>
+                                           <thead>
                                             <tr>
-                                                <th data-field="state" data-checkbox="true"></th>
+                                                <th  data-field="state" data-checkbox="true"></th>
+                                                <th data-filter-control="input" data-sortable="true">#</th>
                                                 <th data-filter-control="input" data-sortable="true">First Name</th>
                                                 <th data-filter-control="input" data-sortable="true">Middle Name</th>
                                                 <th data-filter-control="input" data-sortable="true">Last Name</th>
@@ -436,33 +449,38 @@ hr{
                                                 <th data-filter-control="input" data-sortable="true">Batch #</th>
                                                 <th data-filter-control="input" data-sortable="true">Training Status</th>
                                                 <th data-filter-control="input" data-sortable="true">Scholarship</th>
+                                                <th data-field="action" data-filter-control="input" data-sortable="true">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($alumni as $manageAlumni => $alumni)
+                                            @foreach($alumni as $manageAlumni => $alumnus)
                                             <tr>
                                                 <td class="bs-checkbox"><input data-index="{{ $manageAlumni }}" name="btSelectItem" type="checkbox"></td>
-                                                <td>{{ $alumni->firstName }}</td>
-                                                <td>{{ $alumni->middleName }}</td>
-                                                <td>{{ $alumni->lastName }}</td>
-                                                <td>{{ $alumni->streetAddress }}</td>
-                                                <td>{{ $alumni->barangay }}</td>
-                                                <td>{{ $alumni->city }}</td>
-                                                <td>{{ $alumni->district }}</td>
-                                                <td>{{ $alumni->province }}</td>
-                                                <td>{{ $alumni->region }}</td>
-                                                <td>{{ $alumni->birthdate }}</td>
-                                                <td>{{ $alumni->age }}</td>
-                                                <td>{{ $alumni->sex }}</td>
-                                                <td>{{ $alumni->nationality }}</td>
-                                                <td>{{ $alumni->civil_status }}</td>
-                                                <td>{{ $alumni->email }}</td>
-                                                <td>{{ $alumni->batchNumber }}</td>
-                                                <td>{{ $alumni->training_status }}</td>
-                                                <td>{{ $alumni->scholarship }}</td>
+                                                <td>{{ $alumnus->alumni_id }}</td>
+                                                <td>{{ $alumnus->firstName }}</td>
+                                                <td>{{ $alumnus->middleName }}</td>
+                                                <td>{{ $alumnus->lastName }}</td>
+                                                <td>{{ $alumnus->streetAddress }}</td>
+                                                <td>{{ $alumnus->barangay }}</td>
+                                                <td>{{ $alumnus->city }}</td>
+                                                <td>{{ $alumnus->district }}</td>
+                                                <td>{{ $alumnus->province }}</td>
+                                                <td>{{ $alumnus->region }}</td>
+                                                <td>{{ $alumnus->birthdate }}</td>
+                                                <td>{{ $alumnus->age }}</td>
+                                                <td>{{ $alumnus->sex }}</td>
+                                                <td>{{ $alumnus->nationality }}</td>
+                                                <td>{{ $alumnus->civil_status }}</td>
+                                                <td>{{ $alumnus->email }}</td>
+                                                <td>{{ $alumnus->batchNumber }}</td>
+                                                <td>{{ $alumnus->training_status }}</td>
+                                                <td>{{ $alumnus->scholarship }}</td>
+                                                <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" data-id="{{ $alumnus->id }}">Edit</button></td>
+
                                             </tr>
                                             @endforeach
                                         </tbody>
+
                                     </table>
                                 </div>
                             </div>
@@ -473,7 +491,6 @@ hr{
         </div>
 
 
-        <!-- Modal for adding alumni -->
 <div class="modal fade" id="addAlumniModal" tabindex="-1" role="dialog" aria-labelledby="addAlumniModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -592,6 +609,188 @@ hr{
     </div>
 </div>
 </div>
+
+
+
+@foreach($alumni as $alumnus) <!-- Assuming $alumni is a collection of alumnus records -->
+<div class="modal fade" id="editModal{{ $alumnus->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $alumnus->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ route('updateAlumni') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $alumnus->alumni_id }}" style="text-align: center">Edit Alumni</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="alumni_id" value="{{ $alumnus->alumni_id }}">
+                    <label for="FirstName{{ $alumnus->alumni_id }}">First Name</label>
+                    <input type="text" class="form-control" id="FirstName{{ $alumnus->alumni_id }}" name="firstName" value="{{ $alumnus->firstName }}">
+
+                    <div class="form-group">
+                        <label for="MiddleName{{ $alumnus->alumni_id }}">Middle Name</label>
+                        <input type="text" class="form-control" id="MiddleName{{ $alumnus->alumni_id }}" name="middleName" value="{{ $alumnus->middleName }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName{{ $alumnus->alumni_id }}">Last Name</label>
+                        <input type="text" class="form-control" id="LastName{{ $alumnus->alumni_id }}" name="lastName" value="{{ $alumnus->lastName }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="StreetAddress{{ $alumnus->alumni_id }}">Street Address</label>
+                        <input type="text" class="form-control" id="StreetAddress{{ $alumnus->alumni_id }}" name="streetAddress" value="{{ $alumnus->streetAddress }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Barangay{{ $alumnus->alumni_id }}">Barangay</label>
+                        <input type="text" class="form-control" id="Barangay{{ $alumnus->alumni_id }}" name="barangay" value="{{ $alumnus->barangay }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="City{{ $alumnus->alumni_id }}">City</label>
+                        <input type="text" class="form-control" id="City{{ $alumnus->alumni_id }}" name="city" value="{{ $alumnus->city }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="District{{ $alumnus->alumni_id }}">District</label>
+                        <input type="text" class="form-control" id="District{{ $alumnus->alumni_id }}" name="district" value="{{ $alumnus->district }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Province{{ $alumnus->alumni_id }}">Province</label>
+                        <input type="text" class="form-control" id="Province{{ $alumnus->alumni_id }}" name="province" value="{{ $alumnus->province }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Region{{ $alumnus->alumni_id }}">Region</label>
+                        <input type="text" class="form-control" id="Region{{ $alumnus->alumni_id }}" name="region" value="{{ $alumnus->region }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Birthdate{{ $alumnus->alumni_id }}">Birth Date</label>
+                        <input type="date" class="form-control" id="Birthdate{{ $alumnus->alumni_id }}" name="birthdate" value="{{ $alumnus->birthdate }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Age{{ $alumnus->alumni_id }}">Age</label>
+                        <input type="number" class="form-control" id="Age{{ $alumnus->alumni_id }}" name="age" value="{{ $alumnus->age }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Sex{{ $alumnus->alumni_id }}">Gender</label>
+                        <input type="text" class="form-control" id="Sex{{ $alumnus->alumni_id }}" name="sex" value="{{ $alumnus->sex }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Nationality{{ $alumnus->alumni_id }}">Nationality</label>
+                        <input type="text" class="form-control" id="Nationality{{ $alumnus->alumni_id }}" name="nationality" value="{{ $alumnus->nationality }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CivilStatus{{ $alumnus->alumni_id }}">Civil Status</label>
+                        <input type="text" class="form-control" id="CivilStatus{{ $alumnus->alumni_id }}" name="civil_status" value="{{ $alumnus->civil_status }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email{{ $alumnus->alumni_id }}">Email</label>
+                        <input type="email" class="form-control" id="Email{{ $alumnus->alumni_id }}" name="email" value="{{ $alumnus->email }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="BatchNumber{{ $alumnus->alumni_id }}">Batch #</label>
+                        <input type="number" class="form-control" id="BatchNumber{{ $alumnus->alumni_id }}" name="batchNumber" value="{{ $alumnus->batchNumber }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TrainingStatus{{ $alumnus->alumni_id }}">Training Status</label>
+                        <input type="text" class="form-control" id="TrainingStatus{{ $alumnus->alumni_id }}" name="training_status" value="{{ $alumnus->training_status }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Scholarship{{ $alumnus->alumni_id }}">Scholarship</label>
+                        <input type="text" class="form-control" id="Scholarship{{ $alumnus->alumni_id }}" name="scholarship" value="{{ $alumnus->scholarship }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+{{-- ------------------------------------------------------------------------------------------------------------------------------------------------- --}}
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Send Email</h1>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Sender</span>
+                    <input type="text" class="form-control"  id="senderEmail" name="senderEmail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ auth()->user()->email }}" readonly style="background: #fefefe;">
+                </div>
+                {{-- <label for="batch">Batch:</label>
+                @foreach($batchNumbers as $batch)
+                <option value="{{ $batch }}">{{ $batch }}</option>
+            @endforeach --}}
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -619,16 +818,111 @@ hr{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
     <script>
-          $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
+      $(function () {
+            var $table = $('#table');
+
+            $('#exportButton').click(function () {
+                exportTableToPDF($table);
+            });
+
+            $('#exportExcelButton').click(function () {
+                exportTableToExcel();
+            });
+
+            // Uncheck all checkboxes on page load
+            $('input[name="btSelectItem"]').prop('checked', false);
+
+            var trBoldBlue = $("table");
+            $(trBoldBlue).on("click", "tr", function () {
+                $(this).toggleClass("bold-blue");
             });
         });
 
+        function exportTableToExcel() {
+    var $table = $('#table');
+    var selectedRows = $table.bootstrapTable('getSelections');
+
+    if (selectedRows.length === 0) {
+        alert('No rows selected');
+        return;
+    }
+
+    /* Extract selected table rows data */
+    var data = [];
+    var headers = [];
+    $table.find('thead th').each(function() {
+        headers.push($(this).text().trim());
+    });
+
+    selectedRows.forEach(function(row) {
+        var rowData = [];
+        headers.forEach(function(header) {
+            // Exclude "state" and "action" columns
+            if (header !== 'state' && header !== 'Action') {
+                var key = $table.find('th:contains("' + header + '")').data('field');
+                var cellData = row[key];
+                if (cellData === true) {
+                    cellData = '';
+                }
+                rowData.push(cellData);
+            }
+        });
+        data.push(rowData);
+    });
+
+    /* Prepare workbook */
+    var workbook = XLSX.utils.book_new();
+    var worksheet = XLSX.utils.aoa_to_sheet([headers.filter(header => header !== 'state' && header !== 'Action')].concat(data));
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    /* Export workbook */
+    XLSX.writeFile(workbook, 'selected_table_data.xlsx');
+}
+
+function exportTableToPDF($table) {
+    var { jsPDF } = window.jspdf;
+    var doc = new jsPDF();
+
+    var selectedRows = $table.bootstrapTable('getSelections');
+    if (selectedRows.length === 0) {
+        alert('No rows selected');
+        return;
+    }
+
+    var headers = [];
+    $table.find('thead th').each(function() {
+        headers.push($(this).text().trim());
+    });
+
+    var data = [];
+    selectedRows.forEach(function(row) {
+        var rowData = [];
+        headers.forEach(function(header) {
+            // Exclude "state" and "action" columns
+            if (header !== 'state' && header !== 'Action') {
+                var key = $table.find('th:contains("' + header + '")').data('field');
+                var cellData = row[key];
+                if (cellData === true) {
+                    cellData = '';
+                }
+                rowData.push(cellData);
+            }
+        });
+        data.push(rowData);
+    });
+
+    doc.autoTable({
+        head: [headers.filter(header => header !== 'state' && header !== 'Action')],
+        body: data
+    });
+
+    doc.save('selected_table_data.pdf');
+}
 
 
-    function calculateAge() {
+function calculateAge() {
             var birthdate = document.getElementById("birthdate").value;
             if (birthdate) {
                 var today = new Date();
@@ -644,64 +938,10 @@ hr{
                 document.getElementById("age").value = age;
             }
         }
-
-
-
-
-        $(function () {
-            var $table = $('#table');
-
-            $('#exportButton').click(function () {
-                exportTableToPDF($table);
-            });
-
-            // Uncheck all checkboxes on page load
-            $('input[name="btSelectItem"]').prop('checked', false);
-
-            var trBoldBlue = $("table");
-            $(trBoldBlue).on("click", "tr", function () {
-                $(this).toggleClass("bold-blue");
-            });
-        });
-
-        function exportTableToPDF($table) {
-            var { jsPDF } = window.jspdf;
-            var doc = new jsPDF();
-
-            var selectedRows = $table.bootstrapTable('getSelections');
-            if (selectedRows.length === 0) {
-                alert('No rows selected');
-                return;
-            }
-
-            var headers = [];
-            $table.find('thead th').each(function() {
-                headers.push($(this).text().trim());
-            });
-
-            var data = [];
-            selectedRows.forEach(function(row) {
-                var rowData = [];
-                headers.forEach(function(header) {
-                    if (header !== 'state') {
-                        var key = $table.find('th:contains("' + header + '")').data('field');
-                        var cellData = row[key];
-                        if (cellData === true) {
-                            cellData = '';
-                        }
-                        rowData.push(cellData);
-                    }
-                });
-                data.push(rowData);
-            });
-
-            doc.autoTable({
-                head: [headers.filter(header => header !== 'state')],
-                body: data
-            });
-
-            doc.save('selected_table_data.pdf');
-        }
     </script>
+
+
+
+
 </body>
 </html>

@@ -34,8 +34,10 @@ Route::post('/manageAlumni', [AlumniController::class, 'manageAlumni'])->name('m
 
 
 
+
 Route::get('/manageAlumni', [ManageController::class, 'manageAlumni'])->name('manageAlumni');
 
+Route::put('/update-alumni', [ManageController::class, 'updateAlumni'])->name('updateAlumni');
 
 
 

@@ -363,9 +363,9 @@ hr{
 
             <div class="container">
                 <div class="card">
-                  <i class="icon fas fa-users"></i>
-                  <h3>Total Alumni</h3>
-                  {{-- <p>1000</p> --}}
+                    <i class="icon fas fa-users"></i>
+                    <h3>Total Alumni</h3>
+                    <p>{{ $totalAlumni }}</p>
                 </div>
                 <div class="card">
                     <i class="icon fas fa-users"></i>

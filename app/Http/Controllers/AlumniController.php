@@ -51,7 +51,7 @@ class AlumniController extends Controller
             'scholarship' => $request->scholarship,
         ]);
 
-        return redirect('/manageAlumni')->with('success', 'Registration successful! Please log in.');
+        return redirect('/manageAlumni')->with('success', 'Registration successful');
     }
 }
 

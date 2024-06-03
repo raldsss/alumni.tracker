@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Alumni;
+
 
 class UserController extends Controller
 {
@@ -37,10 +39,20 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $userName = Auth::user()->name;
+        $totalAlumni = Alumni::count();
 
-        return view('dashboard', compact('userName'));
+        // Pass the totalAlumni variable to the view
+        return view('dashboard', ['totalAlumni' => $totalAlumni]);
     }
+
+
+    public function manageAlumni()
+{
+    $email = Alumni::pluck('email');
+
+    // Pass the emails variable to the view
+    return view('manageAlumni', ['email' => $email]);
+}
 
     public function login(Request $request)
     {
