@@ -7,6 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\ManageController;
+use App\Http\Controllers\GmailController;
+use App\Http\Controllers\AlumnilogController;
+
 
 Route::middleware(['redirectIfAuthenticated'])->group(function () {
     Route::get('/register', [UserController::class, 'showRegistrationForm']);
@@ -39,6 +42,11 @@ Route::get('/manageAlumni', [ManageController::class, 'manageAlumni'])->name('ma
 
 Route::put('/update-alumni', [ManageController::class, 'updateAlumni'])->name('updateAlumni');
 
+Route::get('/', [GmailController::class, 'home']);
+Route::post('sendmail/', [GmailController::class, 'Send'])->name('sendmail.send');
 
-
-
+Route::get('/alumnilog', [AlumnilogController::class, 'showLoginForm'])->name('signin');
+Route::post('/signin', [AlumnilogController::class, 'signin'])->name('signin');
+Route::get('/surveyform', function () {
+    return view('surveyform'); 
+})->name('surveyform')->middleware('auth');

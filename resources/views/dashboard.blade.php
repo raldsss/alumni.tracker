@@ -338,9 +338,16 @@ hr{
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+
+
+                    {{-- change --}}
+                    <div type="button" id="sidebarCollapse" >
+                        {{-- class="btn btn-info" --}}
+                     {{-- <i class="fas fa-align-left"></i> --}}
+                 </div>
+                    {{-- <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-left"></i>
-                    </button>
+                    </button> --}}
                     <div class="dropdown">
                         <button class=" btns" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar">
