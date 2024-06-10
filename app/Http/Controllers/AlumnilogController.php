@@ -21,11 +21,17 @@ class AlumnilogController extends Controller
         $alumni = Alumni::where('email', $request->email)->first();
 
         if ($alumni) {
-            Auth::loginUsingId($alumni->alumni_id); 
+            // Update pending status
+            if ($alumni->pending) {
+                $alumni->pending = false;
+                $alumni->save();
+            }
+
+            Auth::loginUsingId($alumni->alumni_id);
             return redirect()->route('surveyform')->with('success', 'Login Successful.');
         }
 
-        return redirect()->route('alumnilog')->withInput($request->only('email'))->withErrors([
+        return redirect()->route('/alumnilog')->withInput($request->only('email'))->withErrors([
             'email' => 'Invalid email. Please try again.',
         ]);
     }

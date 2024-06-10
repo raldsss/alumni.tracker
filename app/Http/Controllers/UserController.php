@@ -40,10 +40,11 @@ class UserController extends Controller
     public function dashboard()
     {
         $totalAlumni = Alumni::count();
+        $pendingAlumniCount = Alumni::where('pending', true)->count();
 
-        // Pass the totalAlumni variable to the view
-        return view('dashboard', ['totalAlumni' => $totalAlumni]);
+        return view('dashboard', compact('totalAlumni', 'pendingAlumniCount'));
     }
+
 
 
     public function manageAlumni()
@@ -66,6 +67,8 @@ class UserController extends Controller
             'password' => 'Invalid username or password. Please try again.',
         ]);
     }
+
+    
 
     public function accounts()
     {

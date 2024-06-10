@@ -280,8 +280,8 @@ hr{
         z-index: 0;
     }
 
-    .container{
-        margin-left: 25rem;
+    .main-container{
+        margin-left: 13rem;
     }
 
 
@@ -479,8 +479,9 @@ form button:hover{
               </button>
 
               <div class="container">
-                <button class="btn btn-primary mb-3 " role="button" data-toggle="modal" data-target="#addAlumniModal"><i class="fa fa-plus"></i> Add Alumni</button>
-                <button type="button" class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:17px;"><i class="fa-solid fa-pencil" style="margin: 5px; "></i>Compose Email</button>
+                <div class="main-container">
+               <button class="btn btn-primary mb-3 " role="button" data-toggle="modal" data-target="#addAlumniModal"><i class="fa fa-plus"></i> Add Alumni</button>
+                <button type="button" class="btn btn-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:17px;"></button><i class="fa-regular fa-paper-plane" style="margin: 5px; "></i>Send Email</button>
 
                 <div id="toolbar">
                     <button id="exportExcelButton" class="btn btn-success"><i class="fa-solid fa-download" style="margin: 5px;"></i>Export to Excel</button>
@@ -553,6 +554,7 @@ form button:hover{
                 </div>
             </div>
 
+              </div>
 
 
 

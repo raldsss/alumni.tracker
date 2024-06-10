@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('batchNumber');
             $table->string('training_status');
             $table->string('scholarship');
+            $table->boolean('pending')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -42,5 +43,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('alumnis');
+        
     }
 };

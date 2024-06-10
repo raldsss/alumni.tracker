@@ -5,15 +5,12 @@ use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\GmailDemo;
-use App\Models\Alumni; // Make sure you have the correct model namespace
+use App\Models\Alumni;
 
 class GmailController extends Controller
 {
-    public function home(){
-        return view('emails.home');
-    }
-
-    public function send(Request $request){
+    public function send(Request $request)
+    {
         $this->validate($request, [
             'body' => 'required'
         ]);
@@ -22,14 +19,22 @@ class GmailController extends Controller
             'body' => $request->body,
         ];
 
-        // Fetch alumni with email addresses
-        $alumniWithEmail = Alumni::whereNotNull('email')->pluck('email');
+        $alumniWithEmail = Alumni::whereNotNull('email')->get();
 
-        // Send email to each alumnus
-        foreach ($alumniWithEmail as $email) {
-            Mail::to($email)->send(new GmailDemo($data));
+        foreach ($alumniWithEmail as $alumnus) {
+            Mail::to($alumnus->email)->send(new GmailDemo($data));
+
+            $alumnus->pending = true;
+            $alumnus->save();
         }
 
-        return back()->with('success', 'Emails sent successfully to all alumni with email addresses!');
+        return back()->with('success', 'Emails sent successfully to all alumni with email addresses and pending status updated!');
+    }
+
+
+    public function dashboard()
+    {
+        $pendingAlumniCount = Alumni::where('pending', true)->count();
+        return view('dashboard', compact('pendingAlumniCount'));
     }
 }

@@ -7,163 +7,180 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>Sidebar</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
 </head>
 <style>
+    @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #fafafa;
+        overflow-x: hidden; /* Prevent horizontal scrollbar */
+    }
 
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
+    p {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1em;
+        font-weight: 300;
+        line-height: 1.7em;
+        color: #999;
+    }
 
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
+    a,
+    a:hover,
+    a:focus {
+        color: inherit;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
 
-a,
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
+    .navbar {
+        padding: 15px 10px;
+        background: #fff;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 0; /* Remove margin bottom */
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        position: fixed; /* Fixed position */
+        top: 0; /* Position at the top */
+        width: 100%; /* Full width */
+        z-index: 1; /* Ensure it stays above other content */
+    }
 
-.navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
+    .navbar-btn {
+        box-shadow: none;
+        outline: none !important;
+        border: none;
+    }
 
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
+    .line {
+        width: 100%;
+        height: 1px;
+        border-bottom: 1px dashed #ddd;
+        margin: 40px 0;
+    }
 
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
-.btn-info{
-    background-color: #385796;
-}
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
+    .btn-info {
+        background-color: #385796;
+    }
 
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
-.title{
-    margin-left: -1rem;
-    font-family: poppins;
-    font-size: 25px;
-    font-weight: 700;
-    text-align: center;
-}
+    /* ---------------------------------------------------
+        SIDEBAR STYLE
+    ----------------------------------------------------- */
 
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #1D3C78;
-    color: #fff;
-    transition: all 0.3s;
+    .wrapper {
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+    }
 
-}
+    .title {
+        margin-left: -1rem;
+        font-family: poppins;
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+    }
 
-#sidebar.active {
-    margin-left: -250px;
-}
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        background: #1d3c78;
+        color: #fff;
+        transition: all 0.3s;
+        position: fixed; /* Fixed position */
+        top: 0; /* Position at the top */
+        height: 100vh; /* Full height */
+        overflow-y: auto; /* Enable vertical scrollbar */
+        z-index: 999; /* Ensure it stays above other content */
+    }
 
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #385796;
-}
+    #sidebar.active {
+        margin-left: -250px;
+    }
 
-#sidebar ul.components {
-    padding: 20px 0;
-}
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background: #385796;
+    }
 
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
+    #sidebar ul.components {
+        padding: 20px 0;
+    }
 
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
+    #sidebar ul p {
+        color: #fff;
+        padding: 10px;
+    }
 
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
+    #sidebar ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+    }
 
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}
+    #sidebar ul li a:hover {
+        color: #7386d5;
+        background: #fff;
+    }
 
-a[data-toggle="collapse"] {
-    position: relative;
-}
+    #sidebar ul li.active>a,
+    a[aria-expanded="true"] {
+        color: #fff;
+        background: #6d7fcc;
+    }
 
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
+    a[data-toggle="collapse"] {
+        position: relative;
+    }
 
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
-}
+    .dropdown-toggle::after {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
 
-ul.CTAs {
-    padding: 20px;
-}
+    ul ul a {
+        font-size: 0.9em !important;
+        padding-left: 30px !important;
+        background: #6d7fcc;
+    }
 
-ul.CTAs a {
-    text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
+    ul.CTAs {
+        padding: 20px;
+    }
 
-a.download {
-    background: #fff;
-    color: #7386D5;
-}
+    ul.CTAs a {
+        text-align: center;
+        font-size: 0.9em !important;
+        display: block;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
 
-a.article,
-a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
-}
+    a.download {
+        background: #fff;
+        color: #7386d5;
+    }
+
+    a.article,
+    a.article:hover {
+        background: #6d7fcc !important;
+        color: #fff !important;
+    }
+
 
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -206,6 +223,9 @@ a.article:hover {
   }
   .container {
     display: flex;
+    position: relative;
+    top: 10rem;
+    left: 8rem;
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px;
@@ -216,6 +236,7 @@ a.article:hover {
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
+
     #sidebar {
         margin-left: -250px;
     }
@@ -225,6 +246,15 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+    .container{
+      position: relative;
+      top: 5rem;
+      left: 0;
+    }
+    .navbar{
+      margin-left: -1rem;
+    }
+
 }
 
 
@@ -290,6 +320,41 @@ hr{
     left: -7px;
 }
 
+.cards {
+            position: relative;
+            top: 1rem;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 100%;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .cards:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #chartContainer {
+            height: 300px;
+            width: 100%;
+        }
+        .date-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .month-arrow {
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .date-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 </style>
 <body>
 
@@ -370,21 +435,36 @@ hr{
 
             <div class="container">
                 <div class="card">
-                    <i class="icon fas fa-users"></i>
+                    <i class="icon fa-solid fa-users"></i>
                     <h3>Total Alumni</h3>
                     <p>{{ $totalAlumni }}</p>
                 </div>
                 <div class="card">
-                    <i class="icon fas fa-users"></i>
-                    {{-- <h3>Total Orders</h3>
-                  <p>500</p> --}}
+                    <i class="icon fa-solid fa-spinner"></i>
+                  <h3>Pendings Survey</h3>
+                  <p>{{ $pendingAlumniCount }}</p>
                 </div>
                 <div class="card">
                     <i class="icon fas fa-users"></i>
-                    {{-- <h3>Total Revenue</h3>
-                  <p>$10,000</p> --}}
                 </div>
-              </div>
+
+               <div class="cards">
+                    <div class="date-container">
+                        <span class="month-arrow" onclick="previousMonth()">&#10094;</span>
+                        <h3 id="selectedDate">June 2024</h3>
+                        <span class="month-arrow" onclick="nextMonth()">&#10095;</span>
+                    </div>
+                    <div>
+                        <label for="yearSelect">Select Year:</label>
+                        <select id="yearSelect" onchange="updateYear(this.value)">
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div id="chartContainer"></div>
+                </div>
+
 
          </div>
     </div>
@@ -419,6 +499,64 @@ hr{
             });
         });
     </script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script>
+         var currentDate = new Date();
+          var currentMonth = currentDate.getMonth();
+          var currentYear = currentDate.getFullYear();
+          var monthNames = ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"
+          ];
+
+          window.onload = function () {
+              updateChart(currentYear, currentMonth);
+          }
+
+          function updateChart(year, month) {
+              var chart = new CanvasJS.Chart("chartContainer", {
+                  animationEnabled: true,
+                  theme: "light2", // "light1", "light2", "dark1", "dark2"
+                  title: {
+                      text: "Alumni Work Status"
+                  },
+                  data: [{
+                      type: "column",
+                      showInLegend: true,
+                      legendMarkerColor: "grey",
+                      dataPoints: [
+                          { y: 5, label: "Employed" },
+                          { y: 10, label: "Not Employed" },
+                      ]
+                  }]
+              });
+              chart.render();
+              document.getElementById("selectedDate").innerText = monthNames[month] + " " + year;
+          }
+
+          function previousMonth() {
+              currentMonth--;
+              if (currentMonth < 0) {
+                  currentMonth = 11;
+                  currentYear--;
+              }
+              updateChart(currentYear, currentMonth);
+          }
+
+          function nextMonth() {
+              currentMonth++;
+              if (currentMonth > 11) {
+                  currentMonth = 0;
+                  currentYear++;
+              }
+              updateChart(currentYear, currentMonth);
+          }
+
+          function updateYear(year) {
+              currentYear = parseInt(year);
+              updateChart(currentYear, currentMonth);
+          }
+    </script>
+  
 </body>
 
 </html>
